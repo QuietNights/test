@@ -14,6 +14,7 @@ public class Application extends JFrame {
     private void initUI() {
 
         add(new Board());
+        
         //This is a comment
 
         setSize(250, 200);

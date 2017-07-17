@@ -6,18 +6,24 @@ import javax.swing.JFrame;
 
 public class Application extends JFrame {
     
-    public Application() {
+	private static final long serialVersionUID = 1L;
+	private static final int WIDTH = 320;
+	private static final int HEIGHT = 240;
+
+	public Application() {
 
         initUI();
     }
 
     private void initUI() {
 
-        add(new Board());
-        //This is a comment
 
-        setSize(250, 200);
+        //Board board = new Board();
 
+        //add(new Board());
+
+        setSize(WIDTH, HEIGHT);
+        setResizable(false);
         setTitle("Application");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);

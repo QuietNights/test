@@ -17,7 +17,7 @@ public class Application extends JFrame {
 
     private void initUI() {
 
-        Board board = new Board();
+        //Board board = new Board();
 
         setSize(WIDTH, HEIGHT);
         setResizable(false);

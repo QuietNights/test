@@ -20,7 +20,7 @@ public class Application extends JFrame {
         add(new Board());
 
         //This is a comment
-
+        //This is a second comment
 
         //Board board = new Board();
 

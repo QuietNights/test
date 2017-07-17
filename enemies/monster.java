@@ -18,5 +18,22 @@ public class monster {
 		health = tempHealth;
 		damage = tempDamage;
 	}
+	
+	public int getHealth() {
+		return health;
+	}
+	
+	public int getDamage() {
+		return damage;
+	}
+	
+	public int getmovementSpeed() {
+		return movementSpeed;
+	}
+	
+	public int[][] size() {
+		return size;
+		
+	}
 		
 }

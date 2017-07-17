@@ -1,4 +1,4 @@
-package com.zetcode;
+package code;
 
 import javax.swing.JPanel;
 

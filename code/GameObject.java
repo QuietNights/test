@@ -9,12 +9,8 @@ public abstract class GameObject {
 		protected ID id;
 		protected int velX, velY;
 		
-		protected boolean left;
-		protected boolean right;
-		protected boolean down;
-		protected boolean up;
-		protected boolean falling;
-		protected boolean jumping;
+		protected int health;
+		protected int maxHealth;
 		
 		protected double moveSpeed;
 		protected double fallSpeed;

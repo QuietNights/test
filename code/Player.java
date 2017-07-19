@@ -7,6 +7,9 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 
+import java.io.File;
+import java.io.IOException;
+
 public class Player extends GameObject {
 	
 	private int health;
@@ -24,6 +27,10 @@ public class Player extends GameObject {
 	
 	private boolean jumping;
 
+	File img = new File("Resources/lilgreenman.png");
+	
+	BufferedImage buffImg;
+	
 	public Player(int x, int y, ID id) {
 		super(x, y, id);
 		// TODO Auto-generated constructor stub
@@ -42,6 +49,13 @@ public class Player extends GameObject {
 		health = maxHealth = 5;
 		bullet = maxBullet = 10;
 		//bullets = new ArrayList<Bullet>();
+
+		try {
+			buffImg = ImageIO.read(img);
+		} catch (IOException e) {
+			
+		}
+
 	}
 	
 	public void tick() {
@@ -49,8 +63,12 @@ public class Player extends GameObject {
 	}
 	
 	public void render(Graphics g) {
-		BufferedImage image = ImageIO.read();
+
+		
 		g.fillRect(50, 50, 50, 50);
+
+		g.drawImage(buffImg, 50, 50, null);
+
 	}
 	
 }

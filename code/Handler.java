@@ -1,7 +1,9 @@
 package code;
 
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.util.LinkedList;
+import code.Player;
 
 public class Handler {
 
@@ -30,4 +32,8 @@ public class Handler {
 	public void removeObject(GameObject object) {
 		this.object.remove(object);
 	}
+
+	
+
+
 }

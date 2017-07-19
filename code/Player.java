@@ -2,9 +2,12 @@ package code;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+
 
 
 import java.io.File;
@@ -12,8 +15,13 @@ import java.io.IOException;
 
 public class Player extends GameObject {
 	
-	private int health;
-	private int maxHealth;
+	private boolean left;
+	private boolean right;
+	private boolean down;
+	private boolean up;
+	private boolean falling;
+	private boolean jumping;
+	
 	private int bullet;
 	private int maxBullet;
 	private boolean dead;
@@ -25,7 +33,6 @@ public class Player extends GameObject {
 	
 	//private ArrayList<Bullet> bullets;
 	
-	private boolean jumping;
 
 	File img = new File("Resources/lilgreenman.png");
 	
@@ -60,15 +67,52 @@ public class Player extends GameObject {
 	
 	public void tick() {
 		
+		if(right) {
+			System.out.println("RIGHT");
+			x += moveSpeed;
+		}
+		
+		if(left) {
+			System.out.println("LEFT");
+			x -= moveSpeed;
+		}
+		
+		if(jumping) {
+			System.out.println("JUMP");
+			y -= jumpStart;
+		}
 	}
 	
 	public void render(Graphics g) {
 
-		
-		g.fillRect(50, 50, 50, 50);
-
-		g.drawImage(buffImg, 50, 50, null);
+		g.drawImage(buffImg, x, y, null);
 
 	}
+	
+	public void setLeft(boolean b) {left = b;}
+	public void setRight(boolean b) {right = b;}
+	public void setJumping(boolean b) {jumping = b;}
+	
+	public void keyPressed (int k) {
+		
+		if(k == KeyEvent.VK_W) setJumping(true);
+		if(k == KeyEvent.VK_A) setLeft(true);
+		if(k == KeyEvent.VK_D) setRight(true);
+		
+		
+	}
+	
+	public void keyReleased (int k) {
+		
+		if(k == KeyEvent.VK_A) setLeft(false);
+		if(k == KeyEvent.VK_D) setRight(false);
+		if(k == KeyEvent.VK_W) setJumping(false);
+		
+	}
+	
+	
+	
+	
+	
 	
 }

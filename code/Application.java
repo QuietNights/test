@@ -7,8 +7,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D; 
 import java.awt.image.BufferStrategy;
 
-import javax.swing.JFrame;
-
 
 public class Application extends Canvas implements Runnable { //Extends canvas for the drawing and implements Runnable which automatically calls start() when everything is loaded
     

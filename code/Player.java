@@ -31,6 +31,9 @@ public class Player extends GameObject {
 	private boolean firing;
 	private int bulletDamage;
 	
+	KeyInput key;
+	KeyEvent i;
+	
 	//private ArrayList<Bullet> bullets;
 	
 
@@ -67,52 +70,10 @@ public class Player extends GameObject {
 	
 	public void tick() {
 		
-		if(right) {
-			System.out.println("RIGHT");
-			x += moveSpeed;
-		}
-		
-		if(left) {
-			System.out.println("LEFT");
-			x -= moveSpeed;
-		}
-		
-		if(jumping) {
-			System.out.println("JUMP");
-			y -= jumpStart;
-		}
 	}
 	
 	public void render(Graphics g) {
-
+		
 		g.drawImage(buffImg, x, y, null);
-
 	}
-	
-	public void setLeft(boolean b) {left = b;}
-	public void setRight(boolean b) {right = b;}
-	public void setJumping(boolean b) {jumping = b;}
-	
-	public void keyPressed (int k) {
-		
-		if(k == KeyEvent.VK_W) setJumping(true);
-		if(k == KeyEvent.VK_A) setLeft(true);
-		if(k == KeyEvent.VK_D) setRight(true);
-		
-		
-	}
-	
-	public void keyReleased (int k) {
-		
-		if(k == KeyEvent.VK_A) setLeft(false);
-		if(k == KeyEvent.VK_D) setRight(false);
-		if(k == KeyEvent.VK_W) setJumping(false);
-		
-	}
-	
-	
-	
-	
-	
-	
 }

@@ -2,7 +2,7 @@ package code;
 
 import java.awt.Graphics;
 
-public abstract class GameObject {
+public abstract class GameObject{
 
 		protected int x, y;
 		protected int width, height;

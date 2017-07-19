@@ -4,7 +4,8 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Graphics;
-import java.awt.Graphics2D; 
+import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 
 
@@ -17,11 +18,13 @@ public class Application extends Canvas implements Runnable { //Extends canvas f
 	
 	private Handler handler;
 	
-	public Application() {
+	public Application () {
 		new Board(320, 240, "Game", this); // width, height, title, this - This is this game so that you can assign the board to it
 		
 		handler = new Handler();
 		// Allows creation of objects -> Refer to Handler.java for all functions
+		
+		this.addKeyListener(new KeyInput());
 		
 		handler.addObject(new Player(50,50, ID.Player));
 		// Adds an instance of an player class with a width, height and ID
@@ -63,7 +66,7 @@ public class Application extends Canvas implements Runnable { //Extends canvas f
 				frames++;
 			if(System.currentTimeMillis() - timer > 1000) {
 				timer += 1000;
-				System.out.println("FPS: " + frames);;
+				//System.out.println("FPS: " + frames);;
 				frames = 0;
 			}
 		}

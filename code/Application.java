@@ -10,28 +10,30 @@ import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
 
 
-public class Application extends Canvas implements Runnable {
+public class Application extends Canvas implements Runnable { //Extends canvas for the drawing and implements Runnable which automatically calls start() when everything is loaded
     
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L; //Unsure what this means
 
-	private Thread thread;
-	private boolean running = false;
+	private Thread thread; //Unsure
+	private boolean running = false; //Game state starts as off until start() is ran
 	
 	private Handler handler;
 	
 	public Application() {
-		new Board(320, 240, "Game", this);
+		new Board(320, 240, "Game", this); // width, height, title, this - This is this game so that you can assign the board to it
 		
 		handler = new Handler();
+		// Allows creation of objects -> Refer to Handler.java for all functions
 		
 		handler.addObject(new Player(50,50, ID.Player));
+		// Adds an instance of an player class with a width, height and ID
 	}
 	
 	public synchronized void start() {
 		thread = new Thread(this);
 		thread.start();
 		running = true;
-		//s
+		//
 	}
 	
 	public synchronized void stop() {
@@ -82,6 +84,10 @@ public class Application extends Canvas implements Runnable {
 		}
 		
 		Graphics g = bs.getDrawGraphics();
+		
+		/*
+		 * Background & Color
+		 */
 		
 		g.setColor(Color.black);
 		g.fillRect(0, 0, 320, 240);

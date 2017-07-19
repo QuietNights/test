@@ -5,8 +5,24 @@ import java.awt.Graphics;
 public abstract class GameObject {
 
 		protected int x, y;
+		protected int width, height;
 		protected ID id;
 		protected int velX, velY;
+		
+		protected boolean left;
+		protected boolean right;
+		protected boolean down;
+		protected boolean up;
+		protected boolean falling;
+		protected boolean jumping;
+		
+		protected double moveSpeed;
+		protected double fallSpeed;
+		protected double maxFallSpeed;
+		protected double jumpStart;
+		protected double stopJumpSpeed;
+		
+		protected boolean facingRight;
 		
 		public GameObject(int x, int y, ID id) {
 			this.x = x;

@@ -4,7 +4,7 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Graphics;
-import java.awt.Graphics2D;
+import java.awt.Graphics2D; 
 import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
@@ -31,6 +31,7 @@ public class Application extends Canvas implements Runnable {
 		thread = new Thread(this);
 		thread.start();
 		running = true;
+		//s
 	}
 	
 	public synchronized void stop() {

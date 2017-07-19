@@ -2,7 +2,6 @@ package code;
 
 import java.awt.Color;
 import java.awt.Graphics;
-import java.awt.event.KeyEvent;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -17,8 +16,6 @@ public class Player extends GameObject {
 	
 	private boolean left;
 	private boolean right;
-	private boolean down;
-	private boolean up;
 	private boolean falling;
 	private boolean jumping;
 	
@@ -81,6 +78,7 @@ public class Player extends GameObject {
 			System.out.println("JUMP");
 			y -= jumpStart;
 		}
+		
 	}
 	
 	public void render(Graphics g) {
@@ -93,22 +91,7 @@ public class Player extends GameObject {
 	public void setRight(boolean b) {right = b;}
 	public void setJumping(boolean b) {jumping = b;}
 	
-	public void keyPressed (int k) {
-		
-		if(k == KeyEvent.VK_W) setJumping(true);
-		if(k == KeyEvent.VK_A) setLeft(true);
-		if(k == KeyEvent.VK_D) setRight(true);
-		
-		
-	}
-	
-	public void keyReleased (int k) {
-		
-		if(k == KeyEvent.VK_A) setLeft(false);
-		if(k == KeyEvent.VK_D) setRight(false);
-		if(k == KeyEvent.VK_W) setJumping(false);
-		
-	}
+
 	
 	
 	

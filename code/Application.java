@@ -4,7 +4,9 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Graphics;
-import java.awt.Graphics2D; 
+import java.awt.Graphics2D;
+import java.awt.event.KeyListener;
+import java.awt.event.KeyAdapter;
 import java.awt.image.BufferStrategy;
 
 
@@ -15,14 +17,17 @@ public class Application extends Canvas implements Runnable {
 	private Thread thread;
 	private boolean running = false;
 	
+	private Player player;
 	private Handler handler;
 	
 	public Application() {
+		
 		new Board(320, 240, "Game", this);
-		
 		handler = new Handler();
-		
-		handler.addObject(new Player(50,50, ID.Player));
+		this.addKeyListener(new KeyInput());
+		player = new Player(50,50,ID.Player);
+		handler.addObject(player);
+				
 	}
 	
 	public synchronized void start() {
@@ -93,4 +98,6 @@ public class Application extends Canvas implements Runnable {
 	public static void main(String args[]) {
 		new Application();
 	}
+	
+	
 }

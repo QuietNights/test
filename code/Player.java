@@ -14,8 +14,8 @@ import java.io.IOException;
 
 public class Player extends GameObject {
 	
-	private boolean left;
-	private boolean right;
+	private boolean left = false;
+	private boolean right = false;
 	private boolean falling;
 	private boolean jumping;
 	
@@ -27,6 +27,9 @@ public class Player extends GameObject {
 	
 	private boolean firing;
 	private int bulletDamage;
+	
+	KeyInput key;
+	//KeyEvent i;
 	
 	//private ArrayList<Bullet> bullets;
 	
@@ -64,6 +67,7 @@ public class Player extends GameObject {
 	
 	public void tick() {
 		
+		//System.out.println("tick");
 		if(right) {
 			System.out.println("RIGHT");
 			x += moveSpeed;
@@ -76,26 +80,24 @@ public class Player extends GameObject {
 		
 		if(jumping) {
 			System.out.println("JUMP");
-			y -= jumpStart;
+			y += jumpStart;
 		}
 		
+
 	}
 	
 	public void render(Graphics g) {
-
 		g.drawImage(buffImg, x, y, null);
-
 	}
+
 	
 	public void setLeft(boolean b) {left = b;}
 	public void setRight(boolean b) {right = b;}
 	public void setJumping(boolean b) {jumping = b;}
 	
+	
 
 	
 	
-	
-	
-	
-	
+
 }

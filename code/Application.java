@@ -5,36 +5,44 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+
 import java.awt.event.KeyListener;
 import java.awt.event.KeyAdapter;
+
+import java.awt.event.KeyEvent;
+
 import java.awt.image.BufferStrategy;
 
 
-public class Application extends Canvas implements Runnable {
+public class Application extends Canvas implements Runnable { //Extends canvas for the drawing and implements Runnable which automatically calls start() when everything is loaded
     
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L; //Unsure what this means
 
-	private Thread thread;
-	private boolean running = false;
+	private Thread thread; //Unsure
+	private boolean running = false; //Game state starts as off until start() is ran
 	
 	private Player player;
 	private Handler handler;
 	
-	public Application() {
+
+	public Application () {
 		
-		new Board(320, 240, "Game", this);
+		
 		handler = new Handler();
-		this.addKeyListener(new KeyInput());
+		new Board(320, 240, "Game", this); // width, height, title, this - This is this game so that you can assign the board to it
 		player = new Player(50,50,ID.Player);
 		handler.addObject(player);
-				
+		
+		this.addKeyListener(new KeyInput(handler, player));
+		// Allows creation of objects -> Refer to Handler.java for all function
+
 	}
 	
 	public synchronized void start() {
 		thread = new Thread(this);
 		thread.start();
 		running = true;
-		//s
+		//
 	}
 	
 	public synchronized void stop() {
@@ -49,7 +57,7 @@ public class Application extends Canvas implements Runnable {
 	public void run() {
 		long lastTime = System.nanoTime();
 		double amountOfTicks = 60.0;
-		double ns = 1000000000;
+		double ns = 1000000000 / amountOfTicks;
 		double delta = 0;
 		long timer = System.currentTimeMillis();
 		int frames = 0;
@@ -85,6 +93,10 @@ public class Application extends Canvas implements Runnable {
 		}
 		
 		Graphics g = bs.getDrawGraphics();
+		
+		/*
+		 * Background & Color
+		 */
 		
 		g.setColor(Color.black);
 		g.fillRect(0, 0, 320, 240);

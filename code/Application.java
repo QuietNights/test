@@ -12,25 +12,38 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.io.File;
+
+import javax.imageio.ImageIO;
 
 
 public class Application extends Canvas implements Runnable { //Extends canvas for the drawing and implements Runnable which automatically calls start() when everything is loaded
     
-	private static final long serialVersionUID = 1L; //Unsure what this means
-
+	private static final long serialVersionUID = 1L; //its some random shit means nothing but throws up warning without it
+	public static final int WIDTH = 640;
+	public static final int HEIGHT = 480;
 	private Thread thread; //Unsure
 	private boolean running = false; //Game state starts as off until start() is ran
 	
 	private Player player;
 	private Handler handler;
 	
+	BufferedImage bgBuffImg;
+	
 
 	public Application () {
 		
+		try {
+			bgBuffImg = ImageIO.read(new File("Resources/background.png"));
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 		
 		handler = new Handler();
-		new Board(640, 480, "Game", this); // width, height, title, this - This is this game so that you can assign the board to it
-		player = new Player(50,228,ID.Player);
+		new Board(WIDTH, HEIGHT, "Game", this); // width, height, title, this - This is this game so that you can assign the board to it
+		player = new Player(WIDTH / 2, 300, ID.Player);
 		handler.addObject(player);
 		
 		this.addKeyListener(new KeyInput(handler, player));
@@ -99,7 +112,7 @@ public class Application extends Canvas implements Runnable { //Extends canvas f
 		 */
 		
 		g.setColor(Color.black);
-		g.fillRect(0, 0, 640, 480);
+		g.drawImage(bgBuffImg, 0, 0, WIDTH, HEIGHT, null);;
 		
 		handler.render(g);
 		

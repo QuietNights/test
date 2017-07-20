@@ -19,6 +19,7 @@ public class Player extends GameObject {
 	private boolean falling;
 	private boolean jumping;
 	private boolean onGround = true;
+	private boolean idle;
 	
 	private int bullet;
 	private int maxBullet;
@@ -70,8 +71,8 @@ public class Player extends GameObject {
 		x += velX;
 		y += velY;
 		
-		//System.out.println(velY);
-		//System.out.println(onGround);
+		//System.out.println(idle);
+		//System.out.println(falling);
 		//System.out.println(jumping && onGround);
 		if(right && left) {velX = 0;}
 		
@@ -87,14 +88,13 @@ public class Player extends GameObject {
 			velY = jumpStart;
 		}
 		
-		if(y < 427) {
+		if(y < 335) {
 			onGround = false;
 			falling = true;
 		}
 		else {
-			y = 427;
+			y = 335;
 			onGround = true;
-			falling = false;
 			if(!jumping) {velY = 0;}
 		}
 		if(falling && !onGround) {
@@ -105,6 +105,8 @@ public class Player extends GameObject {
 				velY = maxFallSpeed;
 			}
 		}
+		if(onGround) {falling = false;}
+		if(!right && !left && !jumping && !falling) {idle=true;} else {idle = false;}
 
 	}
 	

@@ -2,6 +2,7 @@ package code;
 
 import java.awt.Canvas;
 import java.awt.Dimension;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
@@ -9,6 +10,7 @@ import javax.swing.JFrame;
 public class Board extends Canvas {
     
     public Board (int width, int height, String title, Application game) {
+    	
     	JFrame frame = new JFrame(title);
     	
     	frame.setPreferredSize(new Dimension(width, height));

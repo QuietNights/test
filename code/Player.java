@@ -45,11 +45,11 @@ public class Player extends GameObject {
 		width = 7;
 		height = 12;
 		
-		moveSpeed = 0.5;
-		fallSpeed = 0.1;
-		maxFallSpeed = 4.0;
-		jumpStart = -4.5;
-		stopJumpSpeed = 0.3;
+		moveSpeed = 1;
+		fallSpeed = 1;
+		maxFallSpeed = 4;
+		jumpStart = -5;
+		stopJumpSpeed = 1;
 		
 		facingRight = true;
 		
@@ -67,16 +67,22 @@ public class Player extends GameObject {
 	
 	public void tick() {
 		
-		//System.out.println("tick");
-		if(right) {
-			System.out.println("RIGHT");
-			x += moveSpeed;
-		}
+		x += velX;
+		y += velY;
 		
-		if(left) {
+		//System.out.println("tick");
+		if(right && left) {velX = 0;}
+		
+		else if(right) {
+			System.out.println("RIGHT");
+			velX = moveSpeed;
+			System.out.println(velX);
+		} 
+		else if(left) {
 			System.out.println("LEFT");
-			x -= moveSpeed;
-		}
+			velX = (-1) * moveSpeed;
+		} 
+		else {velX = 0;}
 		
 		if(jumping) {
 			System.out.println("JUMP");

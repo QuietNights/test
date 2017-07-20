@@ -12,11 +12,11 @@ public abstract class GameObject{
 		protected int health;
 		protected int maxHealth;
 		
-		protected double moveSpeed;
-		protected double fallSpeed;
-		protected double maxFallSpeed;
-		protected double jumpStart;
-		protected double stopJumpSpeed;
+		protected int moveSpeed;
+		protected int fallSpeed;
+		protected int maxFallSpeed;
+		protected int jumpStart;
+		protected int stopJumpSpeed;
 		
 		protected boolean facingRight;
 		

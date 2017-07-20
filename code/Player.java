@@ -70,16 +70,16 @@ public class Player extends GameObject {
 		
 		x += velX;
 		y += velY;
-		
+		System.out.println(Application.WIDTH);
 		//System.out.println(idle);
 		//System.out.println(falling);
 		//System.out.println(jumping && onGround);
 		if(right && left) {velX = 0;}
 		
-		else if(right) {
+		else if(right && x<=(Application.WIDTH-22)) {
 			velX = moveSpeed;
 		} 
-		else if(left) {
+		else if(left && x>=4) {
 			velX = (-1) * moveSpeed;
 		} 
 		else {velX = 0;}

@@ -18,6 +18,7 @@ public class Player extends GameObject {
 	private boolean right = false;
 	private boolean falling;
 	private boolean jumping;
+	private boolean onGround = true;
 	
 	private int bullet;
 	private int maxBullet;
@@ -42,14 +43,13 @@ public class Player extends GameObject {
 		super(x, y, id);
 		// TODO Auto-generated constructor stub
 		
-		width = 7;
-		height = 12;
+		width = 14;
+		height = 24;
 		
-		moveSpeed = 1;
+		moveSpeed = 5;
 		fallSpeed = 1;
-		maxFallSpeed = 4;
-		jumpStart = -5;
-		stopJumpSpeed = 1;
+		maxFallSpeed = 10;
+		jumpStart = -12;
 		
 		facingRight = true;
 		
@@ -70,30 +70,46 @@ public class Player extends GameObject {
 		x += velX;
 		y += velY;
 		
-		//System.out.println("tick");
+		//System.out.println(velY);
+		//System.out.println(onGround);
+		//System.out.println(jumping && onGround);
 		if(right && left) {velX = 0;}
 		
 		else if(right) {
-			System.out.println("RIGHT");
 			velX = moveSpeed;
-			System.out.println(velX);
 		} 
 		else if(left) {
-			System.out.println("LEFT");
 			velX = (-1) * moveSpeed;
 		} 
 		else {velX = 0;}
 		
-		if(jumping) {
-			System.out.println("JUMP");
-			y += jumpStart;
+		if(jumping && onGround) {
+			velY = jumpStart;
 		}
 		
+		if(y < 427) {
+			onGround = false;
+			falling = true;
+		}
+		else {
+			y = 427;
+			onGround = true;
+			falling = false;
+			if(!jumping) {velY = 0;}
+		}
+		if(falling && !onGround) {
+			if(velY < maxFallSpeed) {
+				velY += fallSpeed;
+			}
+			else {
+				velY = maxFallSpeed;
+			}
+		}
 
 	}
 	
 	public void render(Graphics g) {
-		g.drawImage(buffImg, x, y, null);
+		g.drawImage(buffImg, x, y, 14, 24, null);
 	}
 
 	

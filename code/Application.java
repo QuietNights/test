@@ -29,8 +29,8 @@ public class Application extends Canvas implements Runnable { //Extends canvas f
 		
 		
 		handler = new Handler();
-		new Board(320, 240, "Game", this); // width, height, title, this - This is this game so that you can assign the board to it
-		player = new Player(50,50,ID.Player);
+		new Board(640, 480, "Game", this); // width, height, title, this - This is this game so that you can assign the board to it
+		player = new Player(50,228,ID.Player);
 		handler.addObject(player);
 		
 		this.addKeyListener(new KeyInput(handler, player));
@@ -99,7 +99,7 @@ public class Application extends Canvas implements Runnable { //Extends canvas f
 		 */
 		
 		g.setColor(Color.black);
-		g.fillRect(0, 0, 320, 240);
+		g.fillRect(0, 0, 640, 480);
 		
 		handler.render(g);
 		

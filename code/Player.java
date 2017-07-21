@@ -23,9 +23,8 @@ public class Player extends GameObject {
 	
 	private int bullet;
 	private int maxBullet;
-	private boolean dead;
 	private boolean invuln;
-	private long invulnTime;
+	private int invulnTimer;
 	
 	private boolean firing;
 	private int bulletDamage;
@@ -36,8 +35,7 @@ public class Player extends GameObject {
 	//private ArrayList<Bullet> bullets;
 	
 
-	File img = new File("Resources/lilgreenman.png");
-	
+	BufferedImage heartImg;	
 	BufferedImage buffImg;
 	
 	public Player(int x, int y, ID id) {
@@ -51,6 +49,8 @@ public class Player extends GameObject {
 		fallSpeed = 1;
 		maxFallSpeed = 10;
 		jumpStart = -12;
+		invuln = false;
+		invulnTimer = 60;
 		
 		facingRight = true;
 		
@@ -59,32 +59,33 @@ public class Player extends GameObject {
 		//bullets = new ArrayList<Bullet>();
 
 		try {
-			buffImg = ImageIO.read(img);
+			buffImg = ImageIO.read(new File("Resources/lilgreenman.png"));
+			heartImg = ImageIO.read(new File("Resources/heart.png"));
 		} catch (IOException e) {
-			
+			e.printStackTrace();
 		}
 
 	}
 	
 	public void tick() {
 		
+		//System.out.println(invuln);
 		x += velX;
 		y += velY;
-		System.out.println(Application.WIDTH);
-		//System.out.println(idle);
-		//System.out.println(falling);
-		//System.out.println(jumping && onGround);
-		if(right && left) {velX = 0;}
 		
-		else if(right && x<=(Application.WIDTH-22)) {
+		if(right && left) {velX = 0;} //if pressing left and right, don't move
+		
+		else if(right && x<=(Application.WIDTH-22)) { //if pressing right and not at right edge, go right
+			facingRight = true;
 			velX = moveSpeed;
 		} 
-		else if(left && x>=4) {
+		else if(left && x>=4) { //if pressing left and not at left edge, go left
+			facingRight = false;
 			velX = (-1) * moveSpeed;
 		} 
-		else {velX = 0;}
+		else {velX = 0;} //not pressing left or right, stand still
 		
-		if(jumping && onGround) {
+		if(jumping && onGround) { //if jump button pressed and character is on the ground, jump
 			velY = jumpStart;
 		}
 		
@@ -97,7 +98,7 @@ public class Player extends GameObject {
 			onGround = true;
 			if(!jumping) {velY = 0;}
 		}
-		if(falling && !onGround) {
+		if(falling && !onGround) { //if in the air, apply gravity
 			if(velY < maxFallSpeed) {
 				velY += fallSpeed;
 			}
@@ -106,12 +107,34 @@ public class Player extends GameObject {
 			}
 		}
 		if(onGround) {falling = false;}
-		if(!right && !left && !jumping && !falling) {idle=true;} else {idle = false;}
+		if(!right && !left && !jumping && !falling) {idle=true;} else {idle = false;} //no input, idle
+		
+		if(invuln) {
+			if (invulnTimer > 0) {
+				invulnTimer--;
+				System.out.println(invulnTimer);
+			}
+			else {
+				invuln = false;
+				invulnTimer = 60;
+			}
+		}
+		if(health <= 0) {
+			die();
+		}
 
 	}
 	
 	public void render(Graphics g) {
+		
+		if(invuln) {
+			
+		}
 		g.drawImage(buffImg, x, y, 14, 24, null);
+		g.setColor(Color.red);
+		for(int i = 0; i < health; i++) {
+			g.drawImage(heartImg, (i+1)*48, 48, 32, 32, null);
+		}
 	}
 
 	
@@ -119,9 +142,14 @@ public class Player extends GameObject {
 	public void setRight(boolean b) {right = b;}
 	public void setJumping(boolean b) {jumping = b;}
 	
-	
+	public void takeDamage() {
+		if(!invuln && health >= 1) {
+			health--;
+			invuln = true;
+		}		
+	}
 
-	
+	public void die() {}
 	
 
 }

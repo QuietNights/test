@@ -34,6 +34,8 @@ public class KeyInput extends KeyAdapter {
 			
 				case KeyEvent.VK_W: player.setJumping(true);
 				break;
+				
+				case KeyEvent.VK_P: player.takeDamage();
 			
 				default:
 				

@@ -15,6 +15,7 @@ import java.awt.event.KeyEvent;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.HashMap;
 
 import javax.imageio.ImageIO;
 
@@ -29,7 +30,7 @@ public class Application extends Canvas implements Runnable { //Extends canvas f
 	
 	private Player player;
 	private Handler handler;
-	private AudioPlayer bgMusic;
+	public static HashMap <String, AudioPlayer> music;
 	
 	BufferedImage bgBuffImg;
 	
@@ -37,7 +38,7 @@ public class Application extends Canvas implements Runnable { //Extends canvas f
 	public Application () {
 		
 		try {
-			bgBuffImg = ImageIO.read(new File("Resources/background.png"));
+			bgBuffImg = ImageIO.read(getClass().getClassLoader().getResource("Resources/background.png"));
 		}
 		catch(Exception e) {
 			e.printStackTrace();
@@ -47,9 +48,12 @@ public class Application extends Canvas implements Runnable { //Extends canvas f
 		new Board(WIDTH, HEIGHT, "Game", this); // width, height, title, this - This is this game so that you can assign the board to it
 		player = new Player(WIDTH / 2, 300, ID.Player , handler);
 		handler.addObject(player);
-		bgMusic = new AudioPlayer("/Resources/music.wav");
-		bgMusic.volume.setValue(-20.0f);
-		bgMusic.play();
+		music = new HashMap<String, AudioPlayer>();
+		music.put("bgMusic", new AudioPlayer("/Resources/music.wav"));
+		music.put("deadMusic", new AudioPlayer("/Resources/musicdead.wav"));
+		music.get("bgMusic").volume.setValue(-20.0f);
+		music.get("deadMusic").volume.setValue(-20.0f);
+		music.get("bgMusic").playMusic();
 		//System.out.println("music = " + bgMusic);
 		
 		this.addKeyListener(new KeyInput(handler, player));
@@ -102,6 +106,7 @@ public class Application extends Canvas implements Runnable { //Extends canvas f
 	
 	private void tick() {
 		handler.tick();
+		
 	}
 	
 	private void render() {

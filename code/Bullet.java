@@ -10,7 +10,6 @@ public class Bullet extends GameObject{
 	BufferedImage img;
 	private int x;
 	private int y;
-	private boolean dead = false;
 	private boolean right;
 	private Handler handler;
 	
@@ -22,7 +21,7 @@ public class Bullet extends GameObject{
 		this.handler = handler;
 		handler.addObject(this);
 		try {
-			img = ImageIO.read(new File("Resources/bullet.png"));
+			img = ImageIO.read(getClass().getClassLoader().getResource("Resources/bullet.png"));
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -44,8 +43,8 @@ public class Bullet extends GameObject{
 		x+=velX;
 		
 		
-		if(x>=Application.WIDTH || x<0) {
-			handler.removeObject(this);
+		if(x>=Application.WIDTH || x<0) { //if offscreen, destroy
+			this.dead = true;
 		}
 		
 		

@@ -1,5 +1,8 @@
 package Audio;
 
+import java.io.BufferedInputStream;
+import java.io.InputStream;
+
 import javax.sound.sampled.*;
 
 public class AudioPlayer {
@@ -10,7 +13,9 @@ public class AudioPlayer {
 	public AudioPlayer(String s) {
 		
 		try {
-			AudioInputStream ais = AudioSystem.getAudioInputStream(getClass().getResourceAsStream(s));
+			InputStream audioSrc = getClass().getResourceAsStream(s);
+			InputStream bufferedIn = new BufferedInputStream(audioSrc);
+			AudioInputStream ais = AudioSystem.getAudioInputStream(bufferedIn);			
 			AudioFormat baseFormat = ais.getFormat();
 			AudioFormat decodeFormat = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED,
 					baseFormat.getSampleRate(),
@@ -25,16 +30,25 @@ public class AudioPlayer {
 			volume = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
 		}
 		catch (Exception e) {
+			System.out.println(" BIG FUCKER BOY BIG FUCKER BOY BIG FUCKER BOY BIG FUCKER BOY BIG FUCKER BOY BIG FUCKER BOY BIG FUCKER BOY ");
 			e.printStackTrace();
 		}
 	}
 	
-	public void play() {
+	public void playMusic() {
 		if(clip == null) return;
 		stop();
 		clip.setFramePosition(0);
 		clip.setLoopPoints(0, clip.getFrameLength()-1);
 		clip.loop(Clip.LOOP_CONTINUOUSLY);
+		
+		
+	}
+	
+	public void playSFX() {
+		if(clip == null) return;
+		clip.setFramePosition(0);
+		clip.start();
 		
 	}
 	

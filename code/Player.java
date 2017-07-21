@@ -6,27 +6,31 @@ import java.awt.Graphics;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-
-
+import Audio.AudioPlayer;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 public class Player extends GameObject {
 	
 	private boolean left = false;
 	private boolean right = false;
-	private boolean falling;
 	private boolean jumping;
 	private boolean onGround = true;
 	private boolean idle;
 	private boolean facingRight;
+	private byte deathFontSize;
 	
 	private int bullets;
 	private int maxBullets;
 	private boolean invuln;
 	private int invulnTimer;
 	private Bullet bullet;
+	private int shootTimer;
+	private boolean shooting = false;
+	
+	private HashMap<String, AudioPlayer> sfx;
 	
 	private int reloadTime;
 	private int bulletDamage;
@@ -46,9 +50,14 @@ public class Player extends GameObject {
 		
 		width = 14;
 		height = 24;
-		
 		this.handler = handler;
 		
+		sfx = new HashMap<String, AudioPlayer>();
+		sfx.put("hurt", new AudioPlayer("/Resources/hurt.wav"));
+		sfx.put("shoot", new AudioPlayer("/Resources/shoot.wav"));
+		sfx.get("shoot").volume.setValue(-10.0f);
+		
+		shootTimer = 30;
 		moveSpeed = 5;
 		fallSpeed = 1;
 		maxFallSpeed = 10;
@@ -61,12 +70,11 @@ public class Player extends GameObject {
 		
 		health = maxHealth = 5;
 		bullets = maxBullets = 10;
-		//bullets = new ArrayList<Bullet>();
 
 		try {
-			buffImg = ImageIO.read(new File("Resources/lilgreenman.png"));
-			heartImg = ImageIO.read(new File("Resources/heart.png"));
-			bulletImg = ImageIO.read(new File("Resources/bulletupright.png"));
+			buffImg = ImageIO.read(getClass().getClassLoader().getResource("Resources/lilgreenman.png"));
+			heartImg = ImageIO.read(getClass().getClassLoader().getResource("Resources/heart.png"));
+			bulletImg = ImageIO.read(getClass().getClassLoader().getResource("Resources/bulletupright.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -96,14 +104,13 @@ public class Player extends GameObject {
 		
 		if(y < 335) { //check if in air, make falling true
 			onGround = false;
-			falling = true;
 		}
 		else {
 			y = 335;
 			onGround = true;
 			if(!jumping) {velY = 0;}
 		}
-		if(falling && !onGround) { //if in the air, apply gravity
+		if(!onGround) { //if in the air, apply gravity
 			if(velY < maxFallSpeed) {
 				velY += fallSpeed;
 			}
@@ -111,8 +118,7 @@ public class Player extends GameObject {
 				velY = maxFallSpeed;
 			}
 		}
-		if(onGround) {falling = false;}
-		if((!right && !left && !jumping && !falling) || !falling && !jumping && (right && left)) {idle=true;} else {idle = false;} //no input, idle
+		if((!right && !left && !jumping && onGround) || onGround && !jumping && (right && left)) {idle=true;} else {idle = false;} //no input, idle
 		
 		if(invuln) {
 			if (invulnTimer > 0) {
@@ -135,9 +141,15 @@ public class Player extends GameObject {
 			}
 		}
 		
-		if(health <= 0) {
-			dead = true;
+		if(shooting) {
+			if(shootTimer > 0) {
+				shootTimer--;
+			} else {
+				shootTimer = 30;
+				shooting = false;
+			}
 		}
+		
 
 	}
 	
@@ -154,8 +166,13 @@ public class Player extends GameObject {
 		}		
 		
 		if(dead) {
+			
+			Font f = new Font("Times New Roman", Font.BOLD, 18);
+			g.setFont(f);
 			g.setColor(Color.red);
-			g.drawString("ur ded kiddo", Application.WIDTH / 2, Application.HEIGHT / 2);
+			g.drawString("ur ded kiddo", (int) ((System.currentTimeMillis() / 5) % 640),(int)(220 + 10 * Math.sin(System.currentTimeMillis() / 100)));
+			System.out.println((int)(220 + 20 * Math.sin((System.currentTimeMillis() % 1000) / 30)));
+			
 			return;
 		}
 		if(invuln) {
@@ -163,6 +180,7 @@ public class Player extends GameObject {
 				return;
 			}
 		}
+		
 		
 		g.drawImage(buffImg, x, y, 14, 24, null); //draws player
 		
@@ -177,16 +195,27 @@ public class Player extends GameObject {
 	
 	public void takeDamage() {
 		if(!invuln && health >= 1) {
-			health--;
 			invuln = true;
-		}		
+			health--;
+			sfx.get("hurt").playSFX();
+		}
+		if(health == 0) {
+			dead = true;
+			System.out.println("play dead music");
+			Application.music.get("bgMusic").close();
+			Application.music.get("deadMusic").playMusic();
+		}
+		
 	}
 
 	public void shoot() {
-		if(bullets>0) {
+		if(!shooting && bullets >= 1) {
+			shooting = true;
 			bullet = new Bullet(x + width / 2, y + height / 2, ID.Bullet, facingRight, handler);
 			bullets--;
-		}	
+			sfx.get("shoot").playSFX();
+		}
+		
 	}
 	
 	public void reloadBullets() {

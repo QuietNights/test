@@ -21,7 +21,7 @@ public class KeyInput extends KeyAdapter {
 			
 			GameObject tempObject = handler.object.get(i);
 			
-			if(tempObject.getId() == ID.Player) {
+			if((tempObject.getId() == ID.Player) && !tempObject.dead) {
 				
 				switch(key) {
 				

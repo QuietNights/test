@@ -69,7 +69,7 @@ public class Player extends GameObject {
 	
 	public void tick() {
 		
-		//System.out.println(invuln);
+		System.out.println(idle);
 		x += velX;
 		y += velY;
 		
@@ -107,7 +107,7 @@ public class Player extends GameObject {
 			}
 		}
 		if(onGround) {falling = false;}
-		if(!right && !left && !jumping && !falling) {idle=true;} else {idle = false;} //no input, idle
+		if((!right && !left && !jumping && !falling) || !falling && !jumping && (right && left)) {idle=true;} else {idle = false;} //no input, idle
 		
 		if(invuln) {
 			if (invulnTimer > 0) {

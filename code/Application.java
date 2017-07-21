@@ -1,6 +1,7 @@
 package code;
 
 import java.awt.Canvas;
+import Audio.AudioPlayer;
 import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.Graphics;
@@ -28,6 +29,7 @@ public class Application extends Canvas implements Runnable { //Extends canvas f
 	
 	private Player player;
 	private Handler handler;
+	private AudioPlayer bgMusic;
 	
 	BufferedImage bgBuffImg;
 	
@@ -45,6 +47,10 @@ public class Application extends Canvas implements Runnable { //Extends canvas f
 		new Board(WIDTH, HEIGHT, "Game", this); // width, height, title, this - This is this game so that you can assign the board to it
 		player = new Player(WIDTH / 2, 300, ID.Player);
 		handler.addObject(player);
+		bgMusic = new AudioPlayer("/Resources/music.wav");
+		bgMusic.volume.setValue(-20.0f);
+		bgMusic.play();
+		//System.out.println("music = " + bgMusic);
 		
 		this.addKeyListener(new KeyInput(handler, player));
 		// Allows creation of objects -> Refer to Handler.java for all function

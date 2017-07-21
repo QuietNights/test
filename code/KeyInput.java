@@ -9,7 +9,6 @@ public class KeyInput extends KeyAdapter {
 	private Player player;
 	
 	public KeyInput(Handler handler, Player player) {
-		System.out.println("constructed keyinput");
 		this.handler = handler;
 		this.player = player;
 	}

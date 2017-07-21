@@ -127,14 +127,18 @@ public class Player extends GameObject {
 	
 	public void render(Graphics g) {
 		
-		if(invuln) {
-			
-		}
-		g.drawImage(buffImg, x, y, 14, 24, null);
-		g.setColor(Color.red);
+		if(health==0) {g.drawString("ded",Application.WIDTH / 2, Application.HEIGHT / 2);}
 		for(int i = 0; i < health; i++) {
 			g.drawImage(heartImg, (i+1)*48, 48, 32, 32, null);
 		}
+		if(invuln) {
+			if(invulnTimer / 2 % 2 == 0) {
+				return;
+			}
+		}
+		g.drawImage(buffImg, x, y, 14, 24, null);
+		g.setColor(Color.red);
+		
 	}
 
 	

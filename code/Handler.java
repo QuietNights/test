@@ -19,8 +19,11 @@ public class Handler {
 	public void render(Graphics g) {
 		for(int i = 0; i < object.size(); i++) {
 			GameObject tempObject = object.get(i);
+			if(tempObject.dead && !(tempObject.getId() == ID.Player)) {
+				removeObject(tempObject);
+			}
+			else {tempObject.render(g);}
 			
-			tempObject.render(g);
 		}
 	}
 	
@@ -33,6 +36,5 @@ public class Handler {
 	}
 
 	
-
 
 }

@@ -112,7 +112,7 @@ public class Player extends GameObject {
 		if(invuln) {
 			if (invulnTimer > 0) {
 				invulnTimer--;
-				System.out.println(invulnTimer);
+				//System.out.println(invulnTimer);
 			}
 			else {
 				invuln = false;
@@ -120,16 +120,20 @@ public class Player extends GameObject {
 			}
 		}
 		if(health <= 0) {
-			die();
+			dead = true;
 		}
 
 	}
 	
 	public void render(Graphics g) {
 		
-		if(health==0) {g.drawString("ded",Application.WIDTH / 2, Application.HEIGHT / 2);}
 		for(int i = 0; i < health; i++) {
 			g.drawImage(heartImg, (i+1)*48, 48, 32, 32, null);
+		}
+		if(dead) {
+			g.setColor(Color.red);
+			g.drawString("ur ded kiddo", Application.WIDTH / 2, Application.HEIGHT / 2);
+			return;
 		}
 		if(invuln) {
 			if(invulnTimer / 2 % 2 == 0) {
@@ -137,7 +141,7 @@ public class Player extends GameObject {
 			}
 		}
 		g.drawImage(buffImg, x, y, 14, 24, null);
-		g.setColor(Color.red);
+		
 		
 	}
 
@@ -153,7 +157,7 @@ public class Player extends GameObject {
 		}		
 	}
 
-	public void die() {}
+	
 	
 
 }

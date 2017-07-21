@@ -16,6 +16,7 @@ public abstract class GameObject{
 		protected int fallSpeed;
 		protected int maxFallSpeed;
 		protected int jumpStart;
+		protected boolean dead;
 		
 		protected boolean facingRight;
 		

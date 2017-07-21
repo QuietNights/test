@@ -45,7 +45,7 @@ public class Application extends Canvas implements Runnable { //Extends canvas f
 		
 		handler = new Handler();
 		new Board(WIDTH, HEIGHT, "Game", this); // width, height, title, this - This is this game so that you can assign the board to it
-		player = new Player(WIDTH / 2, 300, ID.Player);
+		player = new Player(WIDTH / 2, 300, ID.Player , handler);
 		handler.addObject(player);
 		bgMusic = new AudioPlayer("/Resources/music.wav");
 		bgMusic.volume.setValue(-20.0f);

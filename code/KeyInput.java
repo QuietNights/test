@@ -35,6 +35,13 @@ public class KeyInput extends KeyAdapter {
 				break;
 				
 				case KeyEvent.VK_P: player.takeDamage();
+				break;
+				
+				case KeyEvent.VK_SPACE: player.shoot();
+				break;
+				
+				case KeyEvent.VK_R: player.reloadBullets();
+				break;
 			
 				default:
 				

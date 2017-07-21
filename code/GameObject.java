@@ -18,7 +18,6 @@ public abstract class GameObject{
 		protected int jumpStart;
 		protected boolean dead;
 		
-		protected boolean facingRight;
 		
 		public GameObject(int x, int y, ID id) {
 			this.x = x;

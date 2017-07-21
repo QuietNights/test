@@ -20,30 +20,34 @@ public class Player extends GameObject {
 	private boolean jumping;
 	private boolean onGround = true;
 	private boolean idle;
+	private boolean facingRight;
 	
-	private int bullet;
-	private int maxBullet;
+	private int bullets;
+	private int maxBullets;
 	private boolean invuln;
 	private int invulnTimer;
+	private Bullet bullet;
 	
-	private boolean firing;
+	private int reloadTime;
 	private int bulletDamage;
-	
 	KeyInput key;
 	//KeyEvent i;
 	
 	//private ArrayList<Bullet> bullets;
 	
-
+	private Handler handler;
 	BufferedImage heartImg;	
 	BufferedImage buffImg;
+	BufferedImage bulletImg;
 	
-	public Player(int x, int y, ID id) {
+	public Player(int x, int y, ID id, Handler handler) {
 		super(x, y, id);
 		// TODO Auto-generated constructor stub
 		
 		width = 14;
 		height = 24;
+		
+		this.handler = handler;
 		
 		moveSpeed = 5;
 		fallSpeed = 1;
@@ -51,16 +55,18 @@ public class Player extends GameObject {
 		jumpStart = -12;
 		invuln = false;
 		invulnTimer = 60;
+		reloadTime = 90;
 		
 		facingRight = true;
 		
 		health = maxHealth = 5;
-		bullet = maxBullet = 10;
+		bullets = maxBullets = 10;
 		//bullets = new ArrayList<Bullet>();
 
 		try {
 			buffImg = ImageIO.read(new File("Resources/lilgreenman.png"));
 			heartImg = ImageIO.read(new File("Resources/heart.png"));
+			bulletImg = ImageIO.read(new File("Resources/bulletupright.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -69,7 +75,6 @@ public class Player extends GameObject {
 	
 	public void tick() {
 		
-		System.out.println(idle);
 		x += velX;
 		y += velY;
 		
@@ -89,7 +94,7 @@ public class Player extends GameObject {
 			velY = jumpStart;
 		}
 		
-		if(y < 335) {
+		if(y < 335) { //check if in air, make falling true
 			onGround = false;
 			falling = true;
 		}
@@ -119,6 +124,17 @@ public class Player extends GameObject {
 				invulnTimer = 60;
 			}
 		}
+		
+		if(bullets == 0) {
+			if(reloadTime > 0) {
+				reloadTime--;
+			}
+			else {
+				bullets = maxBullets;
+				reloadTime = 90;
+			}
+		}
+		
 		if(health <= 0) {
 			dead = true;
 		}
@@ -127,20 +143,29 @@ public class Player extends GameObject {
 	
 	public void render(Graphics g) {
 		
-		for(int i = 0; i < health; i++) {
-			g.drawImage(heartImg, (i+1)*48, 48, 32, 32, null);
+		for(int i = 0; i < health; i++) { 
+			g.drawImage(heartImg, (i+1)*32, 32, 32, 32, null);//draws hearts according to hp
 		}
+		
+		if(!dead) {
+			for(int i = 0; i < bullets; i++) {
+			g.drawImage(bulletImg, (i+2)*16 + 4, 64, 8, 16, null);//draws bullets according to ammo
+			}
+		}		
+		
 		if(dead) {
 			g.setColor(Color.red);
 			g.drawString("ur ded kiddo", Application.WIDTH / 2, Application.HEIGHT / 2);
 			return;
 		}
 		if(invuln) {
-			if(invulnTimer / 2 % 2 == 0) {
+			if(invulnTimer / 2 % 2 == 0) { //if player recently hit, dont draw the player half the time - flickers player
 				return;
 			}
 		}
-		g.drawImage(buffImg, x, y, 14, 24, null);
+		
+		g.drawImage(buffImg, x, y, 14, 24, null); //draws player
+		
 		
 		
 	}
@@ -157,7 +182,16 @@ public class Player extends GameObject {
 		}		
 	}
 
+	public void shoot() {
+		if(bullets>0) {
+			bullet = new Bullet(x + width / 2, y + height / 2, ID.Bullet, facingRight, handler);
+			bullets--;
+		}	
+	}
 	
+	public void reloadBullets() {
+		bullets = 0;
+	}
 	
 
 }
